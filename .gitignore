@@ -1,0 +1,87 @@
+# Bazel build outputs
+bazel-*
+/bazel-out/
+
+# Bazel internal directories
+.bazel/
+
+# Bazel cache and temporary files
+.bazelrc.user
+.bazelversion
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Compiled binaries and libraries
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.o
+*.obj
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Node.js (if using with Bazel rules_nodejs)
+node_modules/
+npm-debug.log*
+
+# Python bytecode (if using with Bazel rules_python)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Java (if using with Bazel rules_java)
+*.class
+*.jar
+*.war
+*.ear
+
+# Go (if using with Bazel rules_go)
+*.test
+*.prof
+
+# Rust (if using with Bazel rules_rust)
+target/
+Cargo.lock
+
+# Docker (if using container rules)
+*.tar
+
+# Test outputs
+test-logs/
+testlogs/
+
+# Coverage reports
+coverage/
+*.coverage
+*.lcov
+
+# Backup files
+*.bak
+*.backup
+
+# Local environment files
+.env
+.env.local
+.env.*.local

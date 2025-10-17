@@ -1,0 +1,5 @@
+load("//extensions:toolchain_extension.bzl", "mingw_toolchain_extension")
+
+package(default_visibility = ["//visibility:public"])
+
+mingw_toolchain_extension = mingw_toolchain_extension

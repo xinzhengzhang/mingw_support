@@ -1,0 +1,16 @@
+module(
+    name = "mingw_support",
+    version = "1.0.0",
+)
+
+bazel_dep(name = "platforms", version = "0.0.9")
+
+# Register MinGW toolchains using Bazelmod extension
+mingw_toolchain = use_extension("//extensions:toolchain_extension.bzl", "mingw_toolchain_extension")
+
+use_repo(mingw_toolchain, "llvm_mingw")
+
+register_toolchains(
+    "@llvm_mingw//:x86_64_mingw_toolchain",
+    "@llvm_mingw//:i686_mingw_toolchain",
+)
