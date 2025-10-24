@@ -79,11 +79,15 @@ The toolchain provides build configurations defined in `.bazelrc`:
 ## Toolchain Details
 
 - **Compiler**: LLVM Clang
-- **Linker**: LLD  
+- **Linker**: LLD
 - **Target**: Windows (MinGW-w64)
 - **Host**: macOS, Linux
 - **Architectures**: x86_64, i686
 - **Standard Library**: MinGW-w64 runtime + libc++
+
+### ⚠️ Warning
+
+Due to the complexity of Bazel's C toolchain feature system, the current implementation is referenced from [bazelbuild/rules_android_ndk](https://github.com/bazelbuild/rules_android_ndk). Not all features have been individually verified for reliability. Use with caution in production environments and please report any issues you encounter.
 
 ## Advanced Usage
 
