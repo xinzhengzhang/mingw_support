@@ -13,8 +13,12 @@ filegroup(
     filegroup(
         name = "compiler_files_%s" % arch,
         srcs = glob([
-            "toolchain/bin/*-w64-mingw32-clang",
-            "toolchain/bin/*-w64-mingw32-clang++",
+            "toolchain/bin/%s-w64-mingw32-clang{executable_extension}" % arch,
+            "toolchain/bin/%s-w64-mingw32-clang++{executable_extension}" % arch,
+            "toolchain/bin/clang*{executable_extension}",
+            "toolchain/bin/lib*.dll",
+            "toolchain/lib/lib*.so*",
+            "toolchain/lib/lib*.dylib*",
             "toolchain/%s-w64-mingw32/include/**" % arch,
             "toolchain/lib/clang/21/include/**",
             "toolchain/include/**",
@@ -54,25 +58,40 @@ filegroup(
 
 filegroup(
     name = "ar_files",
-    srcs = glob(["toolchain/bin/*-w64-mingw32-ar", "toolchain/bin/*-w64-mingw32-llvm-ar"]),
+    srcs = glob([
+        "toolchain/bin/*-w64-mingw32-ar{executable_extension}",
+        "toolchain/bin/*-w64-mingw32-llvm-ar{executable_extension}",
+    ]),
     visibility = ["//visibility:public"],
 )
 
 filegroup(
     name = "linker_files",
-    srcs = glob(["toolchain/bin/*-w64-mingw32-ld", "toolchain/bin/*-w64-mingw32-clang", "toolchain/bin/*-w64-mingw32-clang++"]),
+    srcs = glob([
+        "toolchain/bin/*-w64-mingw32-ld",
+        "toolchain/bin/*-w64-mingw32-clang{executable_extension}",
+        "toolchain/bin/*-w64-mingw32-clang++{executable_extension}",
+        "toolchain/bin/lld",
+        "toolchain/bin/ld.lld{executable_extension}",
+        "toolchain/bin/lib*.dll",
+        "toolchain/lib/lib*.so*",
+        "toolchain/lib/lib*.dylib*",
+    ]),
     visibility = ["//visibility:public"],
 )
 
 filegroup(
     name = "objcopy_files",
-    srcs = glob(["toolchain/bin/*-w64-mingw32-objcopy", "toolchain/bin/*-w64-mingw32-objdump"]),
+    srcs = glob([
+        "toolchain/bin/*-w64-mingw32-objcopy{executable_extension}",
+        "toolchain/bin/*-w64-mingw32-objdump",
+    ]),
     visibility = ["//visibility:public"],
 )
 
 filegroup(
     name = "strip_files",
-    srcs = glob(["toolchain/bin/*-w64-mingw32-strip"]),
+    srcs = glob(["toolchain/bin/*-w64-mingw32-strip{executable_extension}"]),
     visibility = ["//visibility:public"],
 )
 

@@ -25,10 +25,10 @@ def _impl(ctx):
         "cpp": toolchain_path + "/bin/" + target_arch + "-w64-mingw32-clang++" + ctx.attr.executable_extension,
         "dwp": toolchain_path + "/bin/false",  # Not available in this toolchain
         "gcc": toolchain_path + "/bin/" + target_arch + "-w64-mingw32-clang" + ctx.attr.executable_extension,
-        "ld": toolchain_path + "/bin/" + target_arch + "-w64-mingw32-ld" + ctx.attr.executable_extension,
+        "ld": toolchain_path + "/bin/" + target_arch + "-w64-mingw32-ld",
         "nm": toolchain_path + "/bin/" + target_arch + "-w64-mingw32-nm" + ctx.attr.executable_extension,
         "objcopy": toolchain_path + "/bin/" + target_arch + "-w64-mingw32-objcopy" + ctx.attr.executable_extension,
-        "objdump": toolchain_path + "/bin/" + target_arch + "-w64-mingw32-objdump" + ctx.attr.executable_extension,
+        "objdump": toolchain_path + "/bin/" + target_arch + "-w64-mingw32-objdump",
         "strip": toolchain_path + "/bin/" + target_arch + "-w64-mingw32-strip" + ctx.attr.executable_extension,
     }
 

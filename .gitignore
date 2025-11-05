@@ -85,3 +85,5 @@ coverage/
 .env
 .env.local
 .env.*.local
+
+MODULE.bazel.lock
