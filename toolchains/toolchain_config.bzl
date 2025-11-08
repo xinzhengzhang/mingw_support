@@ -17,6 +17,14 @@ def _impl(ctx):
     target_arch = ctx.attr.target_arch
     toolchain_path = "toolchain"
 
+    sdk_sysroot = "{}/{}-w64-mingw32".format(toolchain_path, target_arch)
+    if "windows" in ctx.attr.host_os:
+        sdk_sysroot = "{}/".format(toolchain_path)
+    sdk_clang_resource_dir = "{}/lib/clang/21".format(toolchain_path)
+
+    clang_sysroot = "{}/{}".format(ctx.label.workspace_root, sdk_sysroot)
+    clang_resource_dir = "{}/{}".format(ctx.label.workspace_root, sdk_clang_resource_dir)
+
     actions = construct_actions_(action) 
 
     tools = {
@@ -450,6 +458,8 @@ def _impl(ctx):
                     flags = [
                         "-no-canonical-prefixes",
                         "-target", target_arch + "-w64-mingw32",
+                        "--sysroot=" + clang_sysroot,
+                        "-resource-dir", clang_resource_dir,
                     ],
                 ),
                 # Compile + Link
@@ -1121,7 +1131,6 @@ def _impl(ctx):
     return cc_common.create_cc_toolchain_config_info(
         ctx = ctx,
         toolchain_identifier = "llvm-mingw-" + target_arch,
-        host_system_name = "darwin",
         target_system_name = "mingw",
         target_cpu = target_arch,
         target_libc = "mingw",
@@ -1130,11 +1139,11 @@ def _impl(ctx):
         abi_version = "llvm",
         abi_libc_version = "mingw",
         tool_paths = tool_paths,
+        builtin_sysroot = sdk_sysroot,
         cxx_builtin_include_directories = [
-            "%s/%s-w64-mingw32/include" % (toolchain_path, target_arch),
-            "%s/%s-w64-mingw32/include/c++/v1" % (toolchain_path, target_arch),
-            "%s/lib/clang/21/include" % toolchain_path,
-            "%s/include" % toolchain_path,
+            "%sysroot%/include",
+            "%sysroot%/include/c++/v1",
+            sdk_clang_resource_dir,
         ],
         artifact_name_patterns = artifact_name_patterns,
         features = features,
@@ -1257,6 +1266,7 @@ llvm_mingw_cc_toolchain_config = rule(
         # label_list pointing to a file/filegroup created in the external
         # repository's BUILD file (see suggested WORKSPACE snippet).
         "executable_extension": attr.string(default = ""),
+        "host_os": attr.string(mandatory = True),
     },
     provides = [CcToolchainConfigInfo],
 )

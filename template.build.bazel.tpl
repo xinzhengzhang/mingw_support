@@ -108,11 +108,12 @@ filegroup(
 )
 
 
-[ 
+[
     llvm_mingw_cc_toolchain_config(
         name = arch + "_mingw_cc_toolchain_config",
         target_arch = arch,
         executable_extension = "{executable_extension}",
+        host_os = "{host_os}",
     )
 for arch in variants]
 

@@ -15,6 +15,7 @@ def _mingw_tool_repository_impl(ctx):
             "{host_platform}": ",".join(['"' + p + '"' for p in ctx.attr.host_platform]),
             "{host_cpu}": ",".join(['"' + c + '"' for c in ctx.attr.host_cpu]),
             "{executable_extension}": ".exe" if "windows" in ctx.os.name else "",
+            "{host_os}": ctx.os.name,
         },
         executable = False,
     )
