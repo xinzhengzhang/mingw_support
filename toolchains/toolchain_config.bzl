@@ -460,6 +460,9 @@ def _impl(ctx):
                         "-target", target_arch + "-w64-mingw32",
                         "--sysroot=" + clang_sysroot,
                         "-resource-dir", clang_resource_dir,
+                        # Override search paths of clang for startup files and libraries since we override --sysroot.
+                        "-B{}/lib".format(clang_sysroot),
+                        "-B{}/lib/windows".format(clang_resource_dir),
                     ],
                 ),
                 # Compile + Link
@@ -716,6 +719,9 @@ def _impl(ctx):
                     actions = actions.all_link,
                     flags = [
                         "-Wl,--gc-sections",
+                        # Add explicit library search paths since we override --sysroot.
+                        "-L{}/lib".format(clang_sysroot),
+                        "-L{}/lib/windows".format(clang_resource_dir),
                     ],
                 ),
                 flag_set(

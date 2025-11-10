@@ -4,3 +4,5 @@ build:x86_64_windows --platforms=//platforms:windows_x86_64
 
 # For i686 Windows target  
 build:i686_windows --platforms=//platforms:windows_i686
+
+common --incompatible_disallow_empty_glob=false
