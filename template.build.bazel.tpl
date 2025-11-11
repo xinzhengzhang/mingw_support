@@ -27,16 +27,25 @@ filegroup(
     )
 for arch in variants]
 
-filegroup(
-    name = "runtime_lib",
-    srcs = glob([
-        "toolchain/lib/**/libc++*.a",
-        "toolchain/lib/**/libunwind*.a",
-        "toolchain/*/lib/lib*.a",
-        "toolchain/*/lib/lib*.dll",
-    ]),
-    visibility = ["//visibility:public"],
-)
+[
+    filegroup(
+        name = "runtime_lib_%s" % arch,
+        srcs = glob(
+            [
+                # C++ standard library and MinGW and system libraries only.
+                "toolchain/%s-w64-mingw32/lib/libc++*.a" % arch,
+                "toolchain/%s-w64-mingw32/lib/libunwind*.a" % arch,
+                "toolchain/%s-w64-mingw32/lib/lib*.a" % arch,
+            ],
+            exclude = [
+                # Exclude problematic libraries for executable.
+                "toolchain/%s-w64-mingw32/lib/libmmutilse.a" % arch,
+            ],
+            allow_empty = True,
+        ),
+        visibility = ["//visibility:public"],
+    )
+for arch in variants]
 
 filegroup(
     name = "bin",
@@ -76,6 +85,9 @@ filegroup(
         "toolchain/bin/lib*.dll",
         "toolchain/lib/lib*.so*",
         "toolchain/lib/lib*.dylib*",
+        # Add startup files and runtime libraries needed for linking.
+        "toolchain/*/lib/crt*.o",
+        "toolchain/lib/clang/*/lib/**/*.a",
     ]),
     visibility = ["//visibility:public"],
 )
@@ -108,11 +120,12 @@ filegroup(
 )
 
 
-[ 
+[
     llvm_mingw_cc_toolchain_config(
         name = arch + "_mingw_cc_toolchain_config",
         target_arch = arch,
         executable_extension = "{executable_extension}",
+        host_os = "{host_os}",
     )
 for arch in variants]
 
@@ -126,8 +139,8 @@ for arch in variants]
         linker_files = "//:linker_files",
         objcopy_files = "//:objcopy_files",
         strip_files = "//:strip_files",
-        dynamic_runtime_lib = "//:runtime_lib",
-        static_runtime_lib = "//:runtime_lib",
+        dynamic_runtime_lib = "//:runtime_lib_%s" % arch,
+        static_runtime_lib = "//:runtime_lib_%s" % arch,
         supports_param_files = True,
         toolchain_config = ":" + arch + "_mingw_cc_toolchain_config",
         toolchain_identifier = "llvm-mingw-" + arch,
